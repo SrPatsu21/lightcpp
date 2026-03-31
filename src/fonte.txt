@@ -1,0 +1,28 @@
+int8 a;
+int16 aa7Aaaa= 12, sda, dada = -11;
+int32 aADDSAD;
+int64 sadveqw2= 1;
+int b;
+
+uint8 a;
+uint16 aa7Aaaa = 12, sad, vvvv=2;
+uint32 aADDSAD;
+uint64 sadveqw2= 001;
+uint b;
+
+float aa7Aaaa = 12.001;
+float32 aADDSAD;
+float64 sadveqw2= 1.00, a = 213.2, k = 213.0000;
+float128 b;
+
+char ovo = '1';
+char k2a3 = '\\';
+char k2a3 = '\n';
+char k2a3 = '\t', sda = '@', aaas;
+char k2a3 = '\"';
+
+bool baa = true;
+bool bad = false;
+bool asd = false, saa = 1;
+bool asd = 0, sda;
+

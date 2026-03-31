@@ -1,0 +1,122 @@
+options
+{
+	static = false;
+	DEBUG_PARSER = true;
+	DEBUG_TOKEN_MANAGER = true;
+}
+PARSER_BEGIN(ERs)
+import java.io.FileInputStream;
+import java.io.File;
+import java.io.IOException;
+public class ERs
+{
+	public static void main(String args []) throws ParseException
+	{
+		try
+		{
+			System.out.println("Lendo arquivo fonte...");
+			FileInputStream fis = new FileInputStream(new File("..//JavaCC//src//fonte.txt"));
+			ERs parser = new ERs(fis);
+			parser.Start();
+			System.out.println("Arquivo fonte processado corretamente!");
+		}
+		catch (IOException e)
+		{
+			System.out.println("Falha ao abrir arquivo fonte.");
+			System.exit(0);
+		}
+	}
+}
+PARSER_END(ERs)
+SKIP : { " "| "\t" | "\n" | "\r" }
+TOKEN : {
+  < EOL : ";" >
+}
+TOKEN : {
+	<#L : ["a"-"z", "A"-"Z"]>
+}
+TOKEN : {
+	<#LLOW : [ "a"-"z"]>
+}
+TOKEN : {
+	<#LHIGH : [ "A"-"Z"]>
+}
+TOKEN : {
+  <#D : [ "0"-"9" ]>
+}
+TOKEN : {
+  <#DNN : [ "1"-"9" ]>
+}
+TOKEN : {
+  	<INT_TYPE : <INT8> | <INT16> | <INT32> | <INT64> | <INT>> |
+  	<UINT_TYPE : <UINT8> | <UINT16> | <UINT32> | <UINT64> | <UINT>> |
+  	<FLOAT_TYPE : <FLOAT> | <FLOAT32> | <FLOAT64> | <FLOAT128>> |
+  	<CHAR_TYPE : <CHAR>> |
+  	<BOOL_TYPE : <BOOL>> |
+  	
+    < INT64: "int64" > | < INT32: "int32" > | < INT16: "int16" > | < INT8: "int8" > | < INT: "int" > |
+
+    < UINT64: "uint64" > | < UINT32: "uint32" > | < UINT16: "uint16" > | < UINT8: "uint8" > | < UINT: "uint" > |
+
+    < FLOAT128: "float128" > | < FLOAT64: "float64" > | < FLOAT32: "float32" > | < FLOAT: "float" > |
+    < CHAR: "char" > |
+    < BOOL: "bool" >
+}
+
+TOKEN : {
+  <INT_NUMBER : (<D>)+>
+}
+TOKEN : {
+  <FLOAT_NUMBER : <INT_NUMBER>("."<INT_NUMBER>)?>
+}
+TOKEN : {
+  < CHAR_VALUE :
+    "'"
+    (
+      ~["\\", "'"]
+      |
+      "\\" ( ["n","t","r","\\","'","\""] )
+    )
+    "'"
+  >
+}
+TOKEN : {
+	<BOOL_VALUE : ( "true" | "false" )>
+}
+TOKEN : {
+  <VARIABLE_ID : <LLOW>(<L> | <D>)* >
+}
+void declare_var() : {} {
+  	(
+	  	(	  	 	<INT_TYPE>(
+			  	<VARIABLE_ID>("="("-")?<INT_NUMBER>)?
+			  	(","<VARIABLE_ID>("="("-")?<INT_NUMBER>)?)*
+			)
+		) |
+		(
+		 	<UINT_TYPE>(
+	 	  		<VARIABLE_ID>("="<INT_NUMBER>)?
+		  		(","<VARIABLE_ID>("="<INT_NUMBER>)?)*
+		 	)		) |
+		(
+		 	<FLOAT_TYPE>(
+			  	<VARIABLE_ID>("="("-")?<FLOAT_NUMBER>)?
+			  	(","<VARIABLE_ID>("="("-")?<FLOAT_NUMBER>)?)*
+			)		) |
+		(
+		 	<CHAR_TYPE>(
+			  	<VARIABLE_ID>("="<CHAR_VALUE>)?
+			  	(","<VARIABLE_ID>("="<CHAR_VALUE>)?)*
+			)
+		) |
+		(		  	<BOOL_TYPE>(
+			  	<VARIABLE_ID>("="<BOOL_VALUE>)?
+			  	(","<VARIABLE_ID>("="<BOOL_VALUE>)?)*
+			)		)
+	)
+	<EOL>
+}
+
+void Start() : {} {
+	(declare_var())*<EOF>
+}
