@@ -27,6 +27,16 @@ public class ERs
 		}
 	}
 }
+/*
+declaration done
+assignment
+expressions
+if
+while, for
+functions
+blocks {}
+*/
+
 PARSER_END(ERs)
 SKIP : { " "| "\t" | "\n" | "\r" }
 TOKEN : {
