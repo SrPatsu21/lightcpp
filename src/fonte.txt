@@ -4,3 +4,6 @@ int a = false;
 bool kasdAD21 = 1;
 bool a1;
 a1 = 2;
+{
+}
+{int a = 213;}{}{}
