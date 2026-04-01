@@ -112,10 +112,22 @@ void declare_vars() : {} {
  	<TYPE> <VARIABLE_ID> (assignment())?
   	((",")assignmentVar())*
 }
+
+void create_block() : {} {
+	"{"
+	(command_call())*
+	"}"
+}
+
 void command_call() : {} {
- 	( 	  assignmentVar() |
- 	  declare_vars()
- 	)<EOL>
+ 	(		(
+			(		 	  assignmentVar() |
+		 	  declare_vars()
+		 	)<EOL>
+	 	) |
+	 	(
+	 	  create_block()	 	)
+ 	) 
 }
 
 void Start() : {} {
