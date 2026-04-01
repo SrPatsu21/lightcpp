@@ -58,6 +58,7 @@ TOKEN : {
   <#DNN : [ "1"-"9" ]>
 }
 TOKEN : {
+  	<TYPE: <INT_TYPE> | <UINT8> | <FLOAT_TYPE> | <CHAR_TYPE> | <BOOL_TYPE>> | 
   	<INT_TYPE : <INT8> | <INT16> | <INT32> | <INT64> | <INT>> |
   	<UINT_TYPE : <UINT8> | <UINT16> | <UINT32> | <UINT64> | <UINT>> |
   	<FLOAT_TYPE : <FLOAT> | <FLOAT32> | <FLOAT64> | <FLOAT128>> |
@@ -96,42 +97,28 @@ TOKEN : {
 TOKEN : {
   <VARIABLE_ID : <LLOW>(<L> | <D>)* >
 }
-void declare_var() : {} {
-  	(
-	  	(
-	  	 	<INT_TYPE>(
-			  	<VARIABLE_ID>("="("-")?<INT_NUMBER>)?
-			  	(","<VARIABLE_ID>("="("-")?<INT_NUMBER>)?)*
-			)
-		) |
-		(
-		 	<UINT_TYPE>(
-	 	  		<VARIABLE_ID>("="<INT_NUMBER>)?
-		  		(","<VARIABLE_ID>("="<INT_NUMBER>)?)*
-		 	)
-		) |
-		(
-		 	<FLOAT_TYPE>(
-			  	<VARIABLE_ID>("="("-")?<FLOAT_NUMBER>)?
-			  	(","<VARIABLE_ID>("="("-")?<FLOAT_NUMBER>)?)*
-			)
-		) |
-		(
-		 	<CHAR_TYPE>(
-			  	<VARIABLE_ID>("="<CHAR_VALUE>)?
-			  	(","<VARIABLE_ID>("="<CHAR_VALUE>)?)*
-			)
-		) |
-		(
-		  	<BOOL_TYPE>(
-			  	<VARIABLE_ID>("="<BOOL_VALUE>)?
-			  	(","<VARIABLE_ID>("="<BOOL_VALUE>)?)*
-			)
-		)
-	)
-	<EOL>
+void assignment() : {} {
+    "=" (      	(("-")?(<INT_NUMBER> | <FLOAT_NUMBER>)) |
+    	<CHAR_VALUE> |
+    	<BOOL_VALUE>
+   	)
+}
+
+void assignmentVar() : {} {
+  	<VARIABLE_ID>(assignment())
+}
+
+void declare_vars() : {} {
+ 	<TYPE> <VARIABLE_ID> (assignment())?
+  	((",")assignmentVar())*
+}
+void command_call() : {} {
+ 	( 	  assignmentVar() |
+ 	  declare_vars()
+ 	)<EOL>
 }
 
 void Start() : {} {
-	(declare_var())*<EOF>
+	(command_call())*
+	<EOF>
 }
