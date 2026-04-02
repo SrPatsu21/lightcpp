@@ -1,9 +1,12 @@
 a=true;
 a=false;
-int a = false;
-bool kasdAD21 = 1;
+int a = (false);
+bool kasdAD21 += 1;
 bool a1;
 a1 = 2;
 {
+a -= 2 + cC(a, 21.3).b->fogo(3, 1+2--/12*(1)) - 3 >> 2;
 }
+*afa()=12;
 {int a = 213;}{}{}
+&bfa()=12;

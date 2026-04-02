@@ -29,12 +29,16 @@ public class ERs
 }
 /*
 declaration done
-assignment
-expressions
-if
-while, for
-functions
-blocks {}
+assignment done
+expressions done
+blocks {} done
+
+a ? b : c 
+if, else, else if
+while, for, do while
+functions creation
+array
+class, struct
 */
 
 PARSER_END(ERs)
@@ -58,7 +62,7 @@ TOKEN : {
   <#DNN : [ "1"-"9" ]>
 }
 TOKEN : {
-  	<TYPE: <INT_TYPE> | <UINT8> | <FLOAT_TYPE> | <CHAR_TYPE> | <BOOL_TYPE>> | 
+  	<TYPE: <INT_TYPE> | <UINT_TYPE> | <FLOAT_TYPE> | <CHAR_TYPE> | <BOOL_TYPE>> | 
   	<INT_TYPE : <INT8> | <INT16> | <INT32> | <INT64> | <INT>> |
   	<UINT_TYPE : <UINT8> | <UINT16> | <UINT32> | <UINT64> | <UINT>> |
   	<FLOAT_TYPE : <FLOAT> | <FLOAT32> | <FLOAT64> | <FLOAT128>> |
@@ -97,15 +101,72 @@ TOKEN : {
 TOKEN : {
   <VARIABLE_ID : <LLOW>(<L> | <D>)* >
 }
+
+TOKEN : {
+    <ASSIGNMENT : "<<=" | ">>=" | "+=" | "-=" | "*=" | "/=" | "%=" | "&=" | "|=" | "^=" | "=" > |
+    <INCREMENT : "++" | "--"> |
+    <ARITHMETIC_OP : "<<" | ">>" | "||" | "&&" | "+" | "-" | "/" | "%" | "|" | "^" > |
+    <SINGLE_ARITHMETIC_OP : "~" | "!" | "+" | "-" > |
+    <ACCESS_OP : "->" | "."> |
+    <MEMORY_ACCESS_OP_AND_ARITHMETIC:  "*" | "&" >
+}
+
+void function_call() : {} {
+	<VARIABLE_ID>"("
+	(
+		expression()
+		(
+			"," expression()		)*
+	)?
+	")"
+}
+
+void access_or_call() : {} {
+  	(<MEMORY_ACCESS_OP_AND_ARITHMETIC>)?
+    (
+        LOOKAHEAD(2)
+        function_call() |
+        <VARIABLE_ID>
+    )
+    (
+        <ACCESS_OP>
+        (
+            LOOKAHEAD(2)
+			function_call() |
+            <VARIABLE_ID>
+        )
+    )*
+}
+
+void value() : {} {
+	(<SINGLE_ARITHMETIC_OP>)?
+	(
+	  	(
+  	 	  	(<INCREMENT>)?
+  			(<INT_NUMBER> | <FLOAT_NUMBER>)
+  	 	  	(<INCREMENT>)?
+	  	) |
+		<CHAR_VALUE> |
+		<BOOL_VALUE> |
+		access_or_call() |
+		("(" expression() ")")
+	)
+}
+
+void expression() : {} {
+    value()
+    (
+        (<ARITHMETIC_OP>|<MEMORY_ACCESS_OP_AND_ARITHMETIC>)
+        value()
+    )*
+}
+
 void assignment() : {} {
-    "=" (      	(("-")?(<INT_NUMBER> | <FLOAT_NUMBER>)) |
-    	<CHAR_VALUE> |
-    	<BOOL_VALUE>
-   	)
+    <ASSIGNMENT> expression()
 }
 
 void assignmentVar() : {} {
-  	<VARIABLE_ID>(assignment())
+  	access_or_call() assignment()
 }
 
 void declare_vars() : {} {
