@@ -46,6 +46,13 @@ class, struct
 PARSER_END(ERs)
 SKIP : { " "| "\t" | "\n" | "\r" }
 
+SPECIAL_TOKEN: {
+  < COMMENT_LINE: "//" (~["\n","\r"])*>
+}
+
+SPECIAL_TOKEN: {
+  < COMMENT_BLOCK: "/*" (~["*"])* ("*" (~["/"] (~["*"])* "*")*)* "/" >
+}
 
 TOKEN : {
     < IF : "if" > | < ELSE : "else" > | < WHILE : "while" > | < FOR : "for" > | < DO : "do" >
@@ -180,7 +187,7 @@ void assignment() : {} {
 void assignment_call() : {} {
   	
   	access_or_call()
-  	(  	  	(
+  	(  	  	(
 	  	 	<ASSIGNMENT_CP>|<ASSIGNMENT >
 	  	)
 	 	expression()

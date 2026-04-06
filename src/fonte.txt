@@ -60,3 +60,7 @@ while (a < 10) {
         func();
     }
 }
+// asfasfd
+/* as
+asf*
+/asdf*/
