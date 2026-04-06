@@ -32,10 +32,12 @@ declaration done
 assignment done
 expressions done
 blocks {} done
+if, else, else if done
+while, do while done
 
-a ? b : c 
-if, else, else if
-while, for, do while
+a ? b : c
+a++;
+for
 functions creation
 array
 class, struct
@@ -43,6 +45,11 @@ class, struct
 
 PARSER_END(ERs)
 SKIP : { " "| "\t" | "\n" | "\r" }
+
+
+TOKEN : {
+    < IF : "if" > | < ELSE : "else" > | < WHILE : "while" > | < FOR : "for" > | < DO : "do" >
+}
 TOKEN : {
   < EOL : ";" >
 }
@@ -106,6 +113,7 @@ TOKEN : {
     <ASSIGNMENT : "<<=" | ">>=" | "+=" | "-=" | "*=" | "/=" | "%=" | "&=" | "|=" | "^=" | "=" > |
     <INCREMENT : "++" | "--"> |
     <ARITHMETIC_OP : "<<" | ">>" | "||" | "&&" | "+" | "-" | "/" | "%" | "|" | "^" > |
+    <RELATIONAL_OP : "<" | ">" | "<=" | ">=" | "==" | "!=" > |
     <SINGLE_ARITHMETIC_OP : "~" | "!" | "+" | "-" > |
     <ACCESS_OP : "->" | "."> |
     <MEMORY_ACCESS_OP_AND_ARITHMETIC:  "*" | "&" >
@@ -123,6 +131,7 @@ void function_call() : {} {
 
 void access_or_call() : {} {
   	(<MEMORY_ACCESS_OP_AND_ARITHMETIC>)?
+  	(<INCREMENT>)?
     (
         LOOKAHEAD(2)
         function_call() |
@@ -136,6 +145,7 @@ void access_or_call() : {} {
             <VARIABLE_ID>
         )
     )*
+  	(<INCREMENT>)?
 }
 
 void value() : {} {
@@ -156,7 +166,7 @@ void value() : {} {
 void expression() : {} {
     value()
     (
-        (<ARITHMETIC_OP>|<MEMORY_ACCESS_OP_AND_ARITHMETIC>)
+        (<ARITHMETIC_OP>|<RELATIONAL_OP >|<MEMORY_ACCESS_OP_AND_ARITHMETIC>)
         value()
     )*
 }
@@ -180,15 +190,44 @@ void create_block() : {} {
 	"}"
 }
 
+void if_command() : {} {
+    <IF> "(" expression() ")"
+    create_block()
+    (
+        <ELSE>
+        (
+            LOOKAHEAD(<IF>)
+            if_command()
+        |
+            create_block()
+        )
+    )?
+}
+
+void while_command() : {} {
+    <WHILE> "(" expression() ")"
+    create_block()
+}
+
+void do_while_command() : {} {
+    <DO>
+    create_block()
+    <WHILE> "(" expression() ")" <EOL>
+}
+
 void command_call() : {} {
- 	(		(
-			(		 	  assignmentVar() |
-		 	  declare_vars()
-		 	)<EOL>
-	 	) |
-	 	(
-	 	  create_block()	 	)
- 	) 
+    (
+        (
+            (
+                assignmentVar() |
+                declare_vars()
+            ) <EOL>
+        ) |
+        if_command() |
+        do_while_command() |
+        while_command() |
+        create_block()
+    )
 }
 
 void Start() : {} {
