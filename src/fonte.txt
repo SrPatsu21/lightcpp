@@ -1,7 +1,7 @@
 a=true;
 a=false;
 int a = (false);
-bool kasdAD21 += 1;
+bool kasdAD21 = 1;
 bool a1;
 a1 = 2;
 {
@@ -40,6 +40,10 @@ do {
 while (a < 10) {
     if (a % 2 == 0) {
         do {
+         	a++;
+			++a;
+			func();
+			x = a++;
         } while (b < 5);
     }
 }

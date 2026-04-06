@@ -34,9 +34,9 @@ expressions done
 blocks {} done
 if, else, else if done
 while, do while done
+a++; done
 
 a ? b : c
-a++;
 for
 functions creation
 array
@@ -110,7 +110,8 @@ TOKEN : {
 }
 
 TOKEN : {
-    <ASSIGNMENT : "<<=" | ">>=" | "+=" | "-=" | "*=" | "/=" | "%=" | "&=" | "|=" | "^=" | "=" > |
+    <ASSIGNMENT : "=" > |
+    <ASSIGNMENT_CP: "<<=" | ">>=" | "+=" | "-=" | "*=" | "/=" | "%=" | "&=" | "|=" | "^=" > |
     <INCREMENT : "++" | "--"> |
     <ARITHMETIC_OP : "<<" | ">>" | "||" | "&&" | "+" | "-" | "/" | "%" | "|" | "^" > |
     <RELATIONAL_OP : "<" | ">" | "<=" | ">=" | "==" | "!=" > |
@@ -176,13 +177,19 @@ void assignment() : {} {
     <ASSIGNMENT> expression()
 }
 
-void assignmentVar() : {} {
-  	access_or_call() assignment()
+void assignment_call() : {} {
+  	
+  	access_or_call()
+  	(  	  	(
+	  	 	<ASSIGNMENT_CP>|<ASSIGNMENT >
+	  	)
+	 	expression()
+	)?
 }
 
 void declare_vars() : {} {
  	<TYPE> <VARIABLE_ID> (assignment())?
-  	((",")assignmentVar())*
+  	((",")<VARIABLE_ID>(assignment())?)*
 }
 
 void create_block() : {} {
@@ -220,7 +227,7 @@ void command_call() : {} {
     (
         (
             (
-                assignmentVar() |
+                assignment_call() |
                 declare_vars()
             ) <EOL>
         ) |
