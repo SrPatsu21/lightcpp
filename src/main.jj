@@ -36,6 +36,7 @@ if, else, else if done
 while, do while done
 a++; done
 for done
+comment done
 
 a ? b : c
 functions creation
