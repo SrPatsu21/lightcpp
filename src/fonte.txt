@@ -36,14 +36,27 @@ while (a) {
 do {
     a = a * 2;
 } while (a < 100 && b != 0);
-
 while (a < 10) {
     if (a % 2 == 0) {
         do {
-         	a++;
-			++a;
-			func();
-			x = a++;
+            a++;
+            ++a;
+            func();
+            x = a++;
         } while (b < 5);
+    }
+
+    for (a = 0; a < 10; a++) {
+        x = a;
+        obj.x = a;
+        func();
+    }
+
+    for (a; a < 10; ++a) {
+        x = a;
+    }
+
+    for (obj.x = 0; obj.x < 10; obj.x++) {
+        func();
     }
 }

@@ -35,9 +35,9 @@ blocks {} done
 if, else, else if done
 while, do while done
 a++; done
+for done
 
 a ? b : c
-for
 functions creation
 array
 class, struct
@@ -153,6 +153,7 @@ void access_or_call() : {} {
 void value() : {} {
 	(<SINGLE_ARITHMETIC_OP>)?
 	(
+	  	access_or_call() |
 	  	(
   	 	  	(<INCREMENT>)?
   			(<INT_NUMBER> | <FLOAT_NUMBER>)
@@ -160,7 +161,6 @@ void value() : {} {
 	  	) |
 		<CHAR_VALUE> |
 		<BOOL_VALUE> |
-		access_or_call() |
 		("(" expression() ")")
 	)
 }
@@ -212,6 +212,14 @@ void if_command() : {} {
     )?
 }
 
+void for_command() : {} {
+	<FOR>"("
+	((declare_vars() | assignment_call()))? <EOL>
+	(expression())? <EOL>
+	(expression())? ")"
+	create_block()
+}
+
 void while_command() : {} {
     <WHILE> "(" expression() ")"
     create_block()
@@ -234,6 +242,7 @@ void command_call() : {} {
         if_command() |
         do_while_command() |
         while_command() |
+        for_command() |
         create_block()
     )
 }
