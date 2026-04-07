@@ -65,3 +65,18 @@ while (a < 10) {
 /* as
 asf*
 /asdf*/
+void foo() {
+}
+bool isnumber(char x) {
+}
+int foo();
+float calc(int a, float b, char c) {
+}
+int soma(int a, int b) {
+    int resultado = a + b;
+}
+int loop(int i) {
+    while (i < 10) {
+        i++;
+    }
+}
