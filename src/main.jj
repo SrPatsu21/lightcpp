@@ -38,11 +38,13 @@ a++; done
 for done
 comment done
 const done
+functions creation done
 include
 
 a ? b : c
-functions creation
 array
+functions for memory alocation etc
+include
 class, struct
 */
 
@@ -61,7 +63,7 @@ TOKEN : {
     < IF : "if" > | < ELSE : "else" > | < WHILE : "while" > | < FOR : "for" > | < DO : "do" >
 }
 TOKEN : {
-	< CONST : "const" >
+	< CONST : "const" > | < NULL : "null" >
 }
 TOKEN : {
   < EOL : ";" >
@@ -82,12 +84,13 @@ TOKEN : {
   <#DNN : [ "1"-"9" ]>
 }
 TOKEN : {
-  	<TYPE: <INT_TYPE> | <UINT_TYPE> | <FLOAT_TYPE> | <CHAR_TYPE> | <BOOL_TYPE>> | 
+  	<TYPE: <INT_TYPE> | <UINT_TYPE> | <FLOAT_TYPE> | <CHAR_TYPE> | <BOOL_TYPE> | <VOID_TYPE>> | 
   	<INT_TYPE : <INT8> | <INT16> | <INT32> | <INT64> | <INT>> |
   	<UINT_TYPE : <UINT8> | <UINT16> | <UINT32> | <UINT64> | <UINT>> |
   	<FLOAT_TYPE : <FLOAT> | <FLOAT32> | <FLOAT64> | <FLOAT128>> |
   	<CHAR_TYPE : <CHAR>> |
   	<BOOL_TYPE : <BOOL>> |
+  	<VOID_TYPE : <VOID>> |
 
     < INT64: "int64" > | < INT32: "int32" > | < INT16: "int16" > | < INT8: "int8" > | < INT: "int" > |
 
@@ -95,7 +98,8 @@ TOKEN : {
 
     < FLOAT128: "float128" > | < FLOAT64: "float64" > | < FLOAT32: "float32" > | < FLOAT: "float" > |
     < CHAR: "char" > |
-    < BOOL: "bool" >
+    < BOOL: "bool" > |
+    < VOID: "void" >
 }
 
 TOKEN : {
@@ -174,6 +178,7 @@ void value() : {} {
 	  	) |
 		<CHAR_VALUE> |
 		<BOOL_VALUE> |
+		<NULL> |
 		("(" expression() ")")
 	)
 }
@@ -217,7 +222,7 @@ void if_command() : {} {
     (
         <ELSE>
         (
-            LOOKAHEAD(<IF>)
+//            LOOKAHEAD(<IF>)
             if_command()
         |
             create_block()
@@ -260,7 +265,30 @@ void command_call() : {} {
     )
 }
 
+void declare_functon() : {} {
+	<TYPE><VARIABLE_ID>"("
+	(
+		<TYPE> <VARIABLE_ID> (assignment())?
+		(
+		  ","<TYPE> <VARIABLE_ID> (assignment())?
+		)*
+	)?
+	")"
+	(
+	  	(
+	  	 	create_block()
+	  	)|
+	  	(
+	  	 	<EOL> 	
+	  	)
+	)
+}
+
 void Start() : {} {
-	(command_call())*
+	(
+  		LOOKAHEAD(3)
+	  	command_call() |
+	  	declare_functon()
+	)*
 	<EOF>
 }

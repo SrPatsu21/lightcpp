@@ -4,6 +4,7 @@ int a = (false);
 const bool kasdAD21 = 1;
 bool a1;
 a1 = 2;
+ah = null;
 {
 a -= 2 + cC(a, 21.3).b->fogo(3, 1+2--/12*(1)) - 3 >> 2;
 }
@@ -64,3 +65,18 @@ while (a < 10) {
 /* as
 asf*
 /asdf*/
+void foo() {
+}
+bool isnumber(char x) {
+}
+int foo();
+float calc(int a, float b, char c) {
+}
+int soma(int a, int b) {
+    int resultado = a + b;
+}
+int loop(int i) {
+    while (i < 10) {
+        i++;
+    }
+}
