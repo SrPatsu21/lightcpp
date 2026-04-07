@@ -1,7 +1,7 @@
 a=true;
 a=false;
 int a = (false);
-bool kasdAD21 = 1;
+const bool kasdAD21 = 1;
 bool a1;
 a1 = 2;
 {

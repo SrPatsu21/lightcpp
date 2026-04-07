@@ -37,6 +37,7 @@ while, do while done
 a++; done
 for done
 comment done
+const done
 
 a ? b : c
 functions creation
@@ -57,6 +58,9 @@ SPECIAL_TOKEN: {
 
 TOKEN : {
     < IF : "if" > | < ELSE : "else" > | < WHILE : "while" > | < FOR : "for" > | < DO : "do" >
+}
+TOKEN : {
+	< CONST : "const" >
 }
 TOKEN : {
   < EOL : ";" >
@@ -196,7 +200,7 @@ void assignment_call() : {} {
 }
 
 void declare_vars() : {} {
- 	<TYPE> <VARIABLE_ID> (assignment())?
+ 	(<CONST>)? <TYPE> <VARIABLE_ID> (assignment())?
   	((",")<VARIABLE_ID>(assignment())?)*
 }
 
