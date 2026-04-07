@@ -60,7 +60,7 @@ TOKEN : {
     < IF : "if" > | < ELSE : "else" > | < WHILE : "while" > | < FOR : "for" > | < DO : "do" >
 }
 TOKEN : {
-	< CONST : "const" >
+	< CONST : "const" > | < NULL : "null" >
 }
 TOKEN : {
   < EOL : ";" >
@@ -87,6 +87,7 @@ TOKEN : {
   	<FLOAT_TYPE : <FLOAT> | <FLOAT32> | <FLOAT64> | <FLOAT128>> |
   	<CHAR_TYPE : <CHAR>> |
   	<BOOL_TYPE : <BOOL>> |
+  	<VOID_TYPE : <VOID>> |
 
     < INT64: "int64" > | < INT32: "int32" > | < INT16: "int16" > | < INT8: "int8" > | < INT: "int" > |
 
@@ -94,7 +95,8 @@ TOKEN : {
 
     < FLOAT128: "float128" > | < FLOAT64: "float64" > | < FLOAT32: "float32" > | < FLOAT: "float" > |
     < CHAR: "char" > |
-    < BOOL: "bool" >
+    < BOOL: "bool" > |
+    < VOID: "void" >
 }
 
 TOKEN : {
@@ -116,6 +118,9 @@ TOKEN : {
 }
 TOKEN : {
 	<BOOL_VALUE : ( "true" | "false" )>
+}
+TOKEN : {
+	<VOID_VALUE : <NULL>>
 }
 TOKEN : {
   <VARIABLE_ID : <LLOW>(<L> | <D>)* >
@@ -173,6 +178,7 @@ void value() : {} {
 	  	) |
 		<CHAR_VALUE> |
 		<BOOL_VALUE> |
+		<VOID_VOID_VALUE> |
 		("(" expression() ")")
 	)
 }
