@@ -38,6 +38,7 @@ a++; done
 for done
 comment done
 const done
+include
 
 a ? b : c
 functions creation
