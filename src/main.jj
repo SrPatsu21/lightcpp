@@ -38,24 +38,22 @@ a++; done
 for done
 comment done
 const done
-functions creation done
 include
 
 a ? b : c
+functions creation
 array
-functions for memory alocation etc
-include
 class, struct
 */
 
 PARSER_END(ERs)
 SKIP : { " "| "\t" | "\n" | "\r" }
 
-SPECIAL_TOKEN: {
+SPECIAL_TOKEN : {
   < COMMENT_LINE: "//" (~["\n","\r"])*>
 }
 
-SPECIAL_TOKEN: {
+SPECIAL_TOKEN : {
   < COMMENT_BLOCK: "/*" (~["*"])* ("*" (~["/"] (~["*"])* "*")*)* "/" >
 }
 
@@ -63,7 +61,7 @@ TOKEN : {
     < IF : "if" > | < ELSE : "else" > | < WHILE : "while" > | < FOR : "for" > | < DO : "do" >
 }
 TOKEN : {
-	< CONST : "const" > | < NULL : "null" >
+	< CONST : "const" >
 }
 TOKEN : {
   < EOL : ";" >
@@ -84,13 +82,12 @@ TOKEN : {
   <#DNN : [ "1"-"9" ]>
 }
 TOKEN : {
-  	<TYPE: <INT_TYPE> | <UINT_TYPE> | <FLOAT_TYPE> | <CHAR_TYPE> | <BOOL_TYPE> | <VOID_TYPE>> | 
+  	<TYPE: <INT_TYPE> | <UINT_TYPE> | <FLOAT_TYPE> | <CHAR_TYPE> | <BOOL_TYPE>> | 
   	<INT_TYPE : <INT8> | <INT16> | <INT32> | <INT64> | <INT>> |
   	<UINT_TYPE : <UINT8> | <UINT16> | <UINT32> | <UINT64> | <UINT>> |
   	<FLOAT_TYPE : <FLOAT> | <FLOAT32> | <FLOAT64> | <FLOAT128>> |
   	<CHAR_TYPE : <CHAR>> |
   	<BOOL_TYPE : <BOOL>> |
-  	<VOID_TYPE : <VOID>> |
 
     < INT64: "int64" > | < INT32: "int32" > | < INT16: "int16" > | < INT8: "int8" > | < INT: "int" > |
 
@@ -98,8 +95,7 @@ TOKEN : {
 
     < FLOAT128: "float128" > | < FLOAT64: "float64" > | < FLOAT32: "float32" > | < FLOAT: "float" > |
     < CHAR: "char" > |
-    < BOOL: "bool" > |
-    < VOID: "void" >
+    < BOOL: "bool" >
 }
 
 TOKEN : {
@@ -135,6 +131,23 @@ TOKEN : {
     <SINGLE_ARITHMETIC_OP : "~" | "!" | "+" | "-" > |
     <ACCESS_OP : "->" | "."> |
     <MEMORY_ACCESS_OP_AND_ARITHMETIC:  "*" | "&" >
+}
+
+
+TOKEN : {
+  < INCLUDE_CALL: "#include" > : IN_INCLUDE
+}
+
+<IN_INCLUDE> SKIP : {
+	" "
+}
+
+< IN_INCLUDE > TOKEN: {
+  < INCLUDE_FILE: "<"(~[">"])+">"|"\""(~["\""])+"\"" > : DEFAULT
+}
+
+void include_command() : { } {
+  < INCLUDE_CALL >< INCLUDE_FILE >
 }
 
 void function_call() : {} {
@@ -178,7 +191,6 @@ void value() : {} {
 	  	) |
 		<CHAR_VALUE> |
 		<BOOL_VALUE> |
-		<NULL> |
 		("(" expression() ")")
 	)
 }
@@ -222,7 +234,7 @@ void if_command() : {} {
     (
         <ELSE>
         (
-//            LOOKAHEAD(<IF>)
+            LOOKAHEAD(<IF>)
             if_command()
         |
             create_block()
@@ -261,34 +273,12 @@ void command_call() : {} {
         do_while_command() |
         while_command() |
         for_command() |
-        create_block()
+        create_block() |
+        include_command()
     )
 }
 
-void declare_functon() : {} {
-	<TYPE><VARIABLE_ID>"("
-	(
-		<TYPE> <VARIABLE_ID> (assignment())?
-		(
-		  ","<TYPE> <VARIABLE_ID> (assignment())?
-		)*
-	)?
-	")"
-	(
-	  	(
-	  	 	create_block()
-	  	)|
-	  	(
-	  	 	<EOL> 	
-	  	)
-	)
-}
-
 void Start() : {} {
-	(
-  		LOOKAHEAD(3)
-	  	command_call() |
-	  	declare_functon()
-	)*
+	(command_call())*
 	<EOF>
 }
