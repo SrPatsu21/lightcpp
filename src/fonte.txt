@@ -80,3 +80,65 @@ int loop(int i) {
         i++;
     }
 }
+
+// ===== STRUCTS =====
+
+struct Pessoa {
+    int idade;
+    float altura;
+};
+
+struct Ponto {
+    int x, y;
+};
+
+struct Vazio;
+struct Data {
+    int dia, mes, ano;
+};
+
+class Sistema {
+public:
+    Data d;
+
+    Sistema() {
+        d.dia = 1;
+        d.mes = 1;
+        d.ano = 2025;
+    }
+
+    int atualizar() {
+        d.dia++;
+    }
+};
+class A {
+public:
+    A() {}
+};
+
+class B : A {
+public:
+    B() : A() {}
+};
+
+class C : B {
+public:
+    C() : B() {}
+};
+
+class Mega : Sistema : RoboCachorro {
+public:
+    int x, y, z;
+
+    Mega() : Sistema(), RoboCachorro() {
+        x = 0;
+        y = 1;
+        z = 2;
+    }
+
+    int processar(int a, int b, int c) {
+        x = a + b;
+        y = b + c;
+        z = c + a;
+    }
+};
