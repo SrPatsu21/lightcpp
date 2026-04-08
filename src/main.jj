@@ -210,7 +210,7 @@ void assignment_call() : {} {
 }
 
 void declare_vars() : {} {
- 	(<CONST>)? <TYPE> <VARIABLE_ID> (assignment())?
+ 	(<CONST>)? (<TYPE>|<CLASS_ID>) <VARIABLE_ID> (assignment())?
   	((",")<VARIABLE_ID>(assignment())?)*
 }
 
@@ -301,7 +301,18 @@ void declare_constructor() : {} {
 			  ","<TYPE> <VARIABLE_ID> (assignment())?
 			)*
 		)?
-		")"	)*
+		")"
+		(
+		  	(
+			 	","<CLASS_ID>"("
+				(
+					<TYPE> <VARIABLE_ID> (assignment())?
+					(
+					  ","<TYPE> <VARIABLE_ID> (assignment())?
+					)*
+				)?
+				")"
+			)*		)	)?
 	(
 	  	(
 	  	 	create_block()
@@ -313,7 +324,7 @@ void declare_constructor() : {} {
 }
 
 void declare_destructor() : {} {
-  	<CLASS_ID> "(" ")"
+  	"~"<CLASS_ID> "(" ")"
   	(
 	  	(
 	  	 	create_block()
@@ -326,10 +337,10 @@ void declare_destructor() : {} {
 
 void class_member() : {} {
 	<ACESS_TOKEN> |
-	declare_constructor() |
 	LOOKAHEAD(<CLASS_ID> "(") declare_constructor() |
-	LOOKAHEAD(<TYPE> <VARIABLE_ID> "(") declare_functon() |
-	declare_vars() <EOL>
+	declare_destructor() |
+	LOOKAHEAD(3) declare_functon() |
+	(declare_vars() <EOL>)
 }
 
 void create_class_block() : {} {
@@ -353,8 +364,7 @@ void declare_class() : {} {
 
 void Start() : {} {
 	(
-  		LOOKAHEAD(3)
-	  	command_call() |
+  		LOOKAHEAD(3) command_call() |
 	  	declare_functon() |
 	  	declare_struct() |
 	  	declare_class()
