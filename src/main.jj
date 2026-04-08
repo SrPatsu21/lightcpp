@@ -39,11 +39,13 @@ for done
 comment done
 const done
 include done
+functions creation done
+class, struct done
 
 a ? b : c
 functions creation
 array
-class, struct
+functions for memory alocation etc
 */
 
 PARSER_END(ERs)
@@ -61,7 +63,11 @@ TOKEN : {
     < IF : "if" > | < ELSE : "else" > | < WHILE : "while" > | < FOR : "for" > | < DO : "do" >
 }
 TOKEN : {
-	< CONST : "const" >
+	< CONST : "const" > | < NULL : "null" > | < STRUCT : "struct" > | < CLASS : "class" > | < MAIN : "main" >
+}
+TOKEN : {
+ 	< ACESS_TOKEN : <PUBLIC> | <PRIVATE> | <PROTECTED> > |
+	< PUBLIC : "public:" > | < PRIVATE : "private:" > | < PROTECTED : "protected:" >
 }
 TOKEN : {
   < EOL : ";" >
@@ -119,7 +125,8 @@ TOKEN : {
 	<BOOL_VALUE : ( "true" | "false" )>
 }
 TOKEN : {
-  <VARIABLE_ID : <LLOW>(<L> | <D>)* >
+  <VARIABLE_ID : <LLOW>(<L> | <D>)* > |
+  <CLASS_ID : <LHIGH>(<L> | <D>)* >
 }
 
 TOKEN : {
@@ -218,7 +225,7 @@ void assignment_call() : {} {
 }
 
 void declare_vars() : {} {
- 	(<CONST>)? <TYPE> <VARIABLE_ID> (assignment())?
+ 	(<CONST>)? (<TYPE>|<CLASS_ID>) <VARIABLE_ID> (assignment())?
   	((",")<VARIABLE_ID>(assignment())?)*
 }
 
@@ -278,7 +285,112 @@ void command_call() : {} {
     )
 }
 
+void declare_functon() : {} {
+	<TYPE><VARIABLE_ID>"("
+	(
+		<TYPE> <VARIABLE_ID> (assignment())?
+		(
+		  ","<TYPE> <VARIABLE_ID> (assignment())?
+		)*
+	)?
+	")"
+	(
+	  	(
+	  	 	create_block()
+	  	)|
+	  	(
+	  	 	<EOL> 	
+	  	)
+	)
+}
+
+void declare_constructor() : {} {
+  	<CLASS_ID>"("
+	(
+		<TYPE> <VARIABLE_ID> (assignment())?
+		(
+		  ","<TYPE> <VARIABLE_ID> (assignment())?
+		)*
+	)?
+	")"
+	(
+	 	":"<CLASS_ID>"("
+		(
+			<TYPE> <VARIABLE_ID> (assignment())?
+			(
+			  ","<TYPE> <VARIABLE_ID> (assignment())?
+			)*
+		)?
+		")"
+		(
+		  	(
+			 	","<CLASS_ID>"("
+				(
+					<TYPE> <VARIABLE_ID> (assignment())?
+					(
+					  ","<TYPE> <VARIABLE_ID> (assignment())?
+					)*
+				)?
+				")"
+			)*
+		)
+	)?
+	(
+	  	(
+	  	 	create_block()
+	  	)|
+	  	(
+	  	 	<EOL> 	
+	  	)
+	)
+}
+
+void declare_destructor() : {} {
+  	"~"<CLASS_ID> "(" ")"
+  	(
+	  	(
+	  	 	create_block()
+	  	)|
+	  	(
+	  	 	<EOL> 	
+	  	)
+	)
+}
+
+void class_member() : {} {
+	<ACESS_TOKEN> |
+	LOOKAHEAD(<CLASS_ID> "(") declare_constructor() |
+	declare_destructor() |
+	LOOKAHEAD(3) declare_functon() |
+	(declare_vars() <EOL>)
+}
+
+void create_class_block() : {} {
+	"{"
+  		(class_member())*
+	"}"
+}
+
+void declare_struct() : {} {
+	<STRUCT><CLASS_ID>
+ 	(create_class_block())? <EOL>
+}
+
+void declare_class() : {} {
+	<CLASS><CLASS_ID>
+	(
+	  ":" <CLASS_ID>
+	)*
+ 	(create_class_block())? <EOL>
+}
+
+
 void Start() : {} {
-	(command_call())*
+	(
+  		LOOKAHEAD(3) command_call() |
+	  	declare_functon() |
+	  	declare_struct() |
+	  	declare_class()
+	)*
 	<EOF>
 }
