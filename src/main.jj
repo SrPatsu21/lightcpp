@@ -43,9 +43,9 @@ functions creation done
 class, struct done
 
 a ? b : c
-functions creation
 array
-functions for memory alocation etc
+functions for memory alocation(new, maloc) etc
+return on functions
 */
 
 PARSER_END(ERs)
