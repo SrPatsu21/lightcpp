@@ -20,22 +20,22 @@ Ela permite a criação de programas com:
 
 ---
 
-## 🔤 2. Tipos de Dados
+## 2. Tipos de Dados
 
-### 🔢 Inteiros
+### Inteiros
 
 ```
 int, int8, int16, int32, int64
 uint, uint8, uint16, uint32, uint64
 ```
 
-### 🔬 Ponto flutuante
+### Ponto flutuante
 
 ```
 float, float32, float64, float128
 ```
 
-### 🔤 Outros
+### Outros
 
 ```
 char    // caractere
@@ -44,7 +44,7 @@ bool    // booleano (true ou false)
 
 ---
 
-## 🔠 3. Identificadores
+## 3. Identificadores
 
 * Variáveis: começam com letra minúscula
 
@@ -76,6 +76,7 @@ int x;
 int y = 10;
 float media = 5.5;
 bool ativo = true;
+Cachorro class_ame;
 ```
 
 ### Múltiplas variáveis:
@@ -92,15 +93,15 @@ const int valor = 100;
 
 ---
 
-## 🧮 5. Expressões e Operadores
+## 5. Expressões e Operadores
 
-### ➕ Operadores aritméticos:
+### Operadores aritméticos:
 
 ```
 +  -  *  /  %
 ```
 
-### 🔁 Incremento:
+### Incremento:
 
 ```
 x++;
@@ -108,19 +109,19 @@ x--;
 ++x;
 ```
 
-### 🔗 Operadores lógicos:
+### Operadores lógicos:
 
 ```
 &&  ||  !
 ```
 
-### ⚖️ Operadores relacionais:
+### Operadores relacionais:
 
 ```
 <  >  <=  >=  ==  !=
 ```
 
-### 🧠 Exemplo:
+### Exemplo:
 
 ```
 x = (a + b) * 2;
@@ -129,7 +130,7 @@ if (x > 10 && ativo) { ... }
 
 ---
 
-## 📝 6. Atribuições
+## 6. Atribuições
 
 ```
 x = 10;
@@ -139,9 +140,9 @@ x -= 2;
 
 ---
 
-## 🔀 7. Estruturas de Controle
+## 7. Estruturas de Controle
 
-### 🔹 If
+### If
 
 ```
 if (condicao) {
@@ -149,7 +150,7 @@ if (condicao) {
 }
 ```
 
-### 🔹 Else If
+### Else If
 
 ```
 if (x > 10) {
@@ -161,7 +162,7 @@ if (x > 10) {
 }
 ```
 
-### 🔁 While
+### While
 
 ```
 while (condicao) {
@@ -169,7 +170,7 @@ while (condicao) {
 }
 ```
 
-### 🔁 Do While
+### Do While
 
 ```
 do {
@@ -177,7 +178,7 @@ do {
 } while (condicao);
 ```
 
-### 🔁 For
+### For
 
 ```
 for (int i = 0; i < 10; i++) {
@@ -187,7 +188,7 @@ for (int i = 0; i < 10; i++) {
 
 ---
 
-## 8. Blocos
+## Blocos
 
 Blocos são definidos por `{}`:
 
@@ -199,7 +200,7 @@ Blocos são definidos por `{}`:
 
 ---
 
-## 9. Funções
+## Funções
 
 ### Declaração:
 
@@ -214,6 +215,7 @@ tipo nome(parâmetros) {
 ```
 int soma(int a, int b) {
     a = a + b;
+    return b;
 }
 ```
 
@@ -225,7 +227,7 @@ int soma(int a, int b);
 
 ---
 
-## 10. Chamada de Funções
+## Chamada de Funções
 
 ```
 soma(10, 20);
@@ -233,7 +235,7 @@ soma(10, 20);
 
 ---
 
-## 11. Classes
+## Classes
 
 ### Declaração:
 
@@ -258,7 +260,7 @@ class Pessoa {
 
 ---
 
-## 12. Structs
+## Structs
 
 ```
 struct Ponto {
@@ -372,7 +374,7 @@ Atualmente, a linguagem **não suporta**:
 
 ---
 
-## 📊 21. Exemplo Completo
+## 21. Exemplo Completo
 
 ```
 #include <stdio>
@@ -402,7 +404,7 @@ int main() {
 
 ---
 
-## 🏁 22. Conclusão
+## 22. Conclusão
 
 A linguagem permite a construção de programas estruturados e organizados, sendo adequada para testes de análise sintática com suporte a:
 
