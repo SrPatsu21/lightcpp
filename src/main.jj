@@ -88,12 +88,13 @@ TOKEN : {
   <#DNN : [ "1"-"9" ]>
 }
 TOKEN : {
-  	<TYPE: <INT_TYPE> | <UINT_TYPE> | <FLOAT_TYPE> | <CHAR_TYPE> | <BOOL_TYPE>> | 
+  	<TYPE: <INT_TYPE> | <UINT_TYPE> | <FLOAT_TYPE> | <CHAR_TYPE> | <BOOL_TYPE> | <VOID_TYPE >> | 
   	<INT_TYPE : <INT8> | <INT16> | <INT32> | <INT64> | <INT>> |
   	<UINT_TYPE : <UINT8> | <UINT16> | <UINT32> | <UINT64> | <UINT>> |
   	<FLOAT_TYPE : <FLOAT> | <FLOAT32> | <FLOAT64> | <FLOAT128>> |
   	<CHAR_TYPE : <CHAR>> |
   	<BOOL_TYPE : <BOOL>> |
+  	<VOID_TYPE : <VOID>> |
 
     < INT64: "int64" > | < INT32: "int32" > | < INT16: "int16" > | < INT8: "int8" > | < INT: "int" > |
 
@@ -101,7 +102,8 @@ TOKEN : {
 
     < FLOAT128: "float128" > | < FLOAT64: "float64" > | < FLOAT32: "float32" > | < FLOAT: "float" > |
     < CHAR: "char" > |
-    < BOOL: "bool" >
+    < BOOL: "bool" > |
+    < VOID: "void" >
 }
 
 TOKEN : {
@@ -188,18 +190,19 @@ void access_or_call() : {} {
 }
 
 void value() : {} {
-	(<SINGLE_ARITHMETIC_OP>)?
-	(
-	  	access_or_call() |
-	  	(
-  	 	  	(<INCREMENT>)?
-  			(<INT_NUMBER> | <FLOAT_NUMBER>)
-  	 	  	(<INCREMENT>)?
-	  	) |
-		<CHAR_VALUE> |
-		<BOOL_VALUE> |
-		("(" expression() ")")
-	)
+    (<SINGLE_ARITHMETIC_OP>)?
+    (
+          access_or_call() |
+          (
+                 (<INCREMENT>)?
+              (<INT_NUMBER> | <FLOAT_NUMBER>)
+                 (<INCREMENT>)?
+          ) |
+        <CHAR_VALUE> |
+        <BOOL_VALUE> |
+        <NULL> |
+        ("(" expression() ")")
+    )
 }
 
 void expression() : {} {

@@ -143,3 +143,4 @@ public:
         z = c + a;
     }
 };
+int a = null;
