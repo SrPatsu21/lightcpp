@@ -1,0 +1,13 @@
+while (a + b * 2 > 10 && c != 0) {
+    a -= 1;
+}
+while (a) {
+    while (b) {
+    }
+}
+do {
+    a = a * 2;
+} while (a < 100 && b != 0);
+for (a = 0; a < 10; a++) {
+	x = a;
+}

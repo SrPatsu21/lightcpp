@@ -4,19 +4,19 @@ options
 	DEBUG_PARSER = true;
 	DEBUG_TOKEN_MANAGER = true;
 }
-PARSER_BEGIN(ERs)
+PARSER_BEGIN(T01)
 import java.io.FileInputStream;
 import java.io.File;
 import java.io.IOException;
-public class ERs
+public class T01
 {
 	public static void main(String args []) throws ParseException
 	{
 		try
 		{
 			System.out.println("Lendo arquivo fonte...");
-			FileInputStream fis = new FileInputStream(new File("..//JavaCC//src//fonte.txt"));
-			ERs parser = new ERs(fis);
+			FileInputStream fis = new FileInputStream(new File("..//JavaCC//src//tests//fonte.txt"));
+			T01 parser = new T01(fis);
 			parser.Start();
 			System.out.println("Arquivo fonte processado corretamente!");
 		}
@@ -48,7 +48,7 @@ functions for memory alocation(new, maloc) etc
 return on functions
 */
 
-PARSER_END(ERs)
+PARSER_END(T01)
 SKIP : { " "| "\t" | "\n" | "\r" }
 
 SPECIAL_TOKEN : {

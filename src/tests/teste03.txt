@@ -1,0 +1,16 @@
+if (a) {
+}
+if (a + b > 10) {
+    a = 1;
+}
+if (a) {
+}
+else if (b) {
+}
+else {
+}
+if (a) {
+    if (b) {
+        c = 1;
+    }
+}
