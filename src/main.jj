@@ -60,7 +60,7 @@ SPECIAL_TOKEN : {
 }
 
 TOKEN : {
-    < IF : "if" > | < ELSE : "else" > | < WHILE : "while" > | < FOR : "for" > | < DO : "do" >
+    < RETURN : "return" > | < IF : "if" > | < ELSE : "else" > | < WHILE : "while" > | < FOR : "for" > | < DO : "do" >
 }
 TOKEN : {
 	< CONST : "const" > | < NULL : "null" > | < STRUCT : "struct" > | < CLASS : "class" > | < MAIN : "main" >
@@ -271,8 +271,14 @@ void do_while_command() : {} {
     <WHILE> "(" expression() ")" <EOL>
 }
 
+void return_command() : {} {
+  < RETURN >
+  (value())? < EOL >
+}
+
 void command_call() : {} {
     (
+        return_command() |
         (
             (
                 assignment_call() |
