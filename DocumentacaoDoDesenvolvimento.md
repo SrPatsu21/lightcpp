@@ -1,75 +1,75 @@
-# Documentacao Do Desenvolvimento
+# Documentação do Desenvolvimento
 
-Este arquivo apresenta algumas partes do processo de desenvolvimento da linguagem e seu analisador lexico.
+Este arquivo apresenta algumas partes do processo de desenvolvimento da linguagem e seu analisador léxico.
 
-1. Definicao dos tipos:
-    1. Foi observado que na linguagem C/C++ existe varios tipo para variaveis e alguns sao redudantes entao a redundancia foi removida.
-    2. Os tipos inteiro(int) e ponto flutuante(float) agora possuem um indicativo do numero de bits que tais usam, por exemplo um byte(8 bits) agora é chamdo de "int8" e double(32 bits) agora é chamado de "float32"
-    3. Existe tambem um versao para inteiros sem sinal uint, em diversos momentos a existencia de um valor negativo nao é significante.
-    4. O tipo boleano e o tipo char tambem foram criados, porem tais nao tem variacoes, sendo char ate redundantes com o "int8".
+1. Definição dos tipos:
+    1. Foi observado que na linguagem C/C++ existem vários tipos para variáveis e alguns são redundantes, então a redundância foi removida.
+    2. Os tipos inteiro (int) e ponto flutuante (float) agora possuem um indicativo do número de bits que utilizam. Por exemplo, um byte (8 bits) agora é chamado de "int8" e double (32 bits) agora é chamado de "float32".
+    3. Existe também uma versão para inteiros sem sinal (uint); em diversos momentos a existência de um valor negativo não é significativa.
+    4. O tipo booleano e o tipo char também foram criados, porém estes não têm variações, sendo char até redundante com o "int8".
 
-2. variaveis:
-    1. O nome de variaveis como de funcoes so pode iniciar com uma letra minuscola de [a-z]. Isso foi decidido baseado em convencao.
-    2. Pode ser qualquer nome desde que nao seja uma palavra reservada
+2. Variáveis:
+    1. O nome de variáveis, assim como o de funções, só pode iniciar com uma letra minúscula de [a-z]. Isso foi decidido baseado em convenção.
+    2. Pode ser qualquer nome, desde que não seja uma palavra reservada.
 
-3. Tipos de valores
-    1. existe algum valores para numeros inteiros, reais, boleanos e char.
-    2. Para char alem da maioria dos caracteries, ele ainda aceita da suporte para:
+3. Tipos de valores:
+    1. Existem alguns valores para números inteiros, reais, booleanos e char.
+    2. Para char, além da maioria dos caracteres, ele ainda aceita suporte para:
         1. '\n'
         2. '\t'
         3. '\r'
         4. '\\'
         5. '\''
         6. '\\'
-    3. Para valores boleanos temos "true" e "false" como palavras reservadas.
+    3. Para valores booleanos, temos "true" e "false" como palavras reservadas.
 
-4. Blocos de comentarios:
-    1. Escolhemos os blocos de comentarios padroes da maioria das linguaguens no mercado, tendo em vista que ja estao bem estabelecidos.
+4. Blocos de comentários:
+    1. Escolhemos os blocos de comentários padrões da maioria das linguagens no mercado, tendo em vista que já estão bem estabelecidos.
 
 5. Comandos:
-    1. Para termos os primeiros comandos funcionando, precisamos definir oque seria um comando para a linguaguem.
-    2. Inicialmente era apenas declaracao de variaveis porem abrangemos o cenario para:
+    1. Para termos os primeiros comandos funcionando, precisamos definir o que seria um comando para a linguagem.
+    2. Inicialmente era apenas declaração de variáveis, porém abrangemos o cenário para:
        1. declare
        2. assignment
        3. expression
        4. conditional statement
        5. loop/iteration statement
        6. block
-   3. Foi definido tudo isso como comandos basicos que deveria ser possiveis de se chamar em qualquer lugar, exceto no meio de definicao de classes e structs que permitem apenas declare.
+   3. Foi definido tudo isso como comandos básicos que devem ser possíveis de se chamar em qualquer lugar, exceto no meio de definição de classes e structs, que permitem apenas declare.
   
-6. Expressoes:
-    1. Suporte as 4 operacoes basicas; operacoes de incremento ("++" "--"); shift; operacoes ralacionais; modulo.
-    2. A operacao mais complicada de se constuir foi a de incremento quando nao ha atribuição ex("a++;" ou "--a;"). Motivo disso é que a linguaguem proibe a chamada de variaveis e expressoes sem objetivo. Isso significa que a expressao precisa ser entendida como alterando uma variavel ou tendo o valor consumido, e ja que nao é uma atribuicao muito explicita, essa parte foi mais dificil.
+6. Expressões:
+    1. Suporte às 4 operações básicas; operações de incremento ("++" "--"); shift; operações relacionais; módulo.
+    2. A operação mais complicada de se construir foi a de incremento quando não há atribuição (ex.: "a++;" ou "--a;"). O motivo disso é que a linguagem proíbe a chamada de variáveis e expressões sem objetivo. Isso significa que a expressão precisa ser entendida como alterando uma variável ou tendo o valor consumido e, já que não é uma atribuição muito explícita, essa parte foi mais difícil.
   
 7. Atribuição:
-    1. O analisador n distingue tipos entao qualquer valor do citados anteriormente pode ser atribuido a qualquer variavel. Valores tambem englobam expressoes.
-    2. Tambem temos suporte a operadores de atribuicao ("+=", "/="), que vao alem de apenas atribuir um valor.
+    1. O analisador não distingue tipos, então qualquer valor dos citados anteriormente pode ser atribuído a qualquer variável. Valores também englobam expressões.
+    2. Também temos suporte a operadores de atribuição ("+=", "/="), que vão além de apenas atribuir um valor.
   
 8. Include:
-    1. comando include foi adicionado para possibilitar a inclusao de arquivos.
+    1. O comando include foi adicionado para possibilitar a inclusão de arquivos.
   
-9. funcoes:
-    1. funcoes como variaveis precisam comecar com letra minuscola.
-    2. O uso do "(" e ")" é obrigatorio para identificar uma funcao.
-    3. Funcoes podem ser chamadas em qualquer momento.
-    4. A funcao pode ser apenas declarada, isso permite que ela seja definida posteriormente.
+9. Funções:
+    1. Funções, assim como variáveis, precisam começar com letra minúscula.
+    2. O uso de "(" e ")" é obrigatório para identificar uma função.
+    3. Funções podem ser chamadas a qualquer momento.
+    4. A função pode ser apenas declarada; isso permite que ela seja definida posteriormente.
 
-10. if
-    1. Ate entao o unico conditional statement da linguaguem.
+10. If:
+    1. Até então, o único conditional statement da linguagem.
     2. Permite recursividade.
-    3. Nao é possivel crialo sem um bloco de comando "{ }"
-    4. Se o trabalho continuar a adicao de um comando "switch" como o comando na linguagem C.
+    3. Não é possível criá-lo sem um bloco de comando "{ }".
+    4. Se o trabalho continuar, há a possibilidade de adição de um comando "switch", como o da linguagem C.
 
-11. For, while, do while
-    1. sao os 3 unicos loops da linguaguem
-    2. Considerase cada um unico e exencial
-    3. Apesar do "do while" ser raramente usado, consideramos que, nao podemos escolher simplicidade encima de performance.
+11. For, while, do while:
+    1. São os 3 únicos loops da linguagem.
+    2. Considera-se cada um único e essencial.
+    3. Apesar do "do while" ser raramente usado, consideramos que não podemos escolher simplicidade em detrimento da performance.
    
-12. Classe e Struct
-    1. Devem iniciar com letra maiuscola para diferenciar das variaveis e funcoes
-    2. Foi decidido que apesar de nao ser comum usar construtores(ou destrutores) em struct é permitido, sendo a unica coisa que diferencia as duas estruturas de dados é o polimorfismo que a classe pode possuir.
-    3. O construtor é praticamente uma funcao que inicia com letra maiuscola e o destrutor é um construtor que nao permite parametros.
+12. Classe e Struct:
+    1. Devem iniciar com letra maiúscula para diferenciar das variáveis e funções.
+    2. Foi decidido que, apesar de não ser comum usar construtores (ou destrutores) em struct, isso é permitido. A única coisa que diferencia as duas estruturas de dados é o polimorfismo que a classe pode possuir.
+    3. O construtor é praticamente uma função que inicia com letra maiúscula, e o destrutor é um construtor que não permite parâmetros.
    
-13. Acesso a memoria
-    1. atualmente nao temos arrays e nem ponteiros
-    2. Ja temos 2 operadoes "*" e "&" ambos exerceriam a mesma funcao que em programas C.
+13. Acesso à memória:
+    1. Atualmente não temos arrays nem ponteiros.
+    2. Já temos 2 operadores "*" e "&", ambos exerceriam a mesma função que em programas C.
