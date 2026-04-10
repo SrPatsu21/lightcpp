@@ -273,7 +273,7 @@ void do_while_command() : {} {
 
 void return_command() : {} {
   < RETURN >
-  (value())? < EOL >
+  (expression())? < EOL >
 }
 
 void command_call() : {} {
