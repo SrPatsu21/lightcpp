@@ -60,7 +60,7 @@ bool    // booleano (true ou false)
 
 ---
 
-## 📦 4. Declaração de Variáveis
+## 4. Declaração de Variáveis
 
 ### Sintaxe:
 
