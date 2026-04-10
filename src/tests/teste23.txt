@@ -1,0 +1,13 @@
+struct Pessoa {
+    int idade;
+    float altura;
+};
+
+struct Ponto {
+    int x y;
+};
+
+struct Vazio;
+struct Data {
+    int dia, mes, ano;
+};

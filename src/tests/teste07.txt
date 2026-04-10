@@ -1,0 +1,9 @@
+bool returnTrue() {
+return true;
+}
+float returnF() {
+return a;
+}
+void returnNone() {
+return;
+}
